@@ -111,12 +111,25 @@ class Playlist:
                 json_file.write(i)
 
 
-# DEBUG
-song1 = Song("Noob", 120, 0, False, "www.duhurensohn.de").toJSON()
-song2 = Song("Nutte", 17, 1, False, "www.duhurensohn.de").toJSON()
-song3 = Song("Dreck", 175, 3, False, "www.duhurensohn.de").toJSON()
-song4 = Song("Vik", 155, 0, False, "www.duhurensohn.de").toJSON()
+    def update_yt_links(self):
+        """
+        TODO Must be extended for all attributes
+        updates the playlist.
+        [x] Url
+        [ ] Title
+        [ ] Duration
+        [ ] Downloaded
+        :return void-Method. just updates the playlist object.
+        """
+        # local variables
+        my_api_key = (os.environ.get("YT_API_KEY"))
+        my_playlist = "PLawcFxg0tsjqHjxdh0Bkc8ZG9Qu4ElzHe"
 
-playlist1 = Playlist()
-playlist1.addItems(song1, song2, song3, song4)
-#print(playlist1.maxDuration)
+        # extracts all video IDs
+        vids_ids = ytH.extract_vid_ids(my_api_key, my_playlist)
+
+        for i in range(len(vids_ids)):
+            url = vids_ids[i]
+            self.addItems(Song("", 0, 0, False, "https://www.youtube.com/watch?v=" + url).toJSON())
+
+        self.parseToJSON()
